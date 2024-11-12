@@ -10,8 +10,17 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String name;
+    private  String status;
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -28,5 +37,6 @@ public class UserEntity {
     public void setName(String name) {
         this.name = name;
     }
+
 
 }

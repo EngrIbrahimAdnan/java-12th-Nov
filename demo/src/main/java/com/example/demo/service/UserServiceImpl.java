@@ -26,8 +26,10 @@ public class UserServiceImpl implements UserService {
     public UserResponse createUser(CreateUserRequest request) {
         UserEntity userEntity = new UserEntity();
         userEntity.setName(request.getName());
+        userEntity.setStatus(request.getStatus().toString());
+
         userEntity = userRepository.save(userEntity);
-        UserResponse response = new UserResponse(userEntity.getId(), userEntity.getName());
+        UserResponse response = new UserResponse(userEntity.getId(), userEntity.getName(), userEntity.getStatus());
         return response;
     }
 }

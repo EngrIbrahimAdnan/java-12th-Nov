@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,9 +17,10 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService){
-        this.userService=userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
+
     // GET endpoint to retrieve all users
     @GetMapping
     public List<UserEntity> getAllUsers() {
@@ -40,5 +42,37 @@ public class UserController {
         }
     }
 
+    @PostMapping("/updateStatus")
+    public UserEntity updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {
+        List<UserEntity> allUsers = userService.getAllUsers();
 
+
+        for (UserEntity user : allUsers) {
+            if (user.getId().equals(userId)) {
+                user.setStatus(newStatus);
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+
+    @PostMapping("/searchUsers")
+    public List<UserEntity> searchUser(@RequestParam(required = false, defaultValue = "none") String filterStatus) {
+        List<UserEntity> allUsers = userService.getAllUsers();
+        List<UserEntity> filteredUsers = new ArrayList();
+
+        for (UserEntity user : allUsers) {
+            String currentStatus = user.getStatus();
+
+            // Check if currentStatus is not null before calling equals
+            if (currentStatus != null && currentStatus.equals(filterStatus)) {
+                filteredUsers.add(user);
+            }
+        }
+
+        // Return an empty list if no users match the filter
+        return filteredUsers;
+    }
 }

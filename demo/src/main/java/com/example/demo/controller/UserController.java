@@ -27,6 +27,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    //POST: http://localhost:8080/users/create
+    //{
+    //    "name": "RandomPerson",
+    //    "status":"ACTIVE"
+    //}
     @PostMapping("/create")
     public ResponseEntity<UserResponse> createuser(@RequestBody CreateUserRequest request) {
         UserResponse response = userService.createUser(request);
@@ -42,6 +47,8 @@ public class UserController {
         }
     }
 
+
+    //POST: http://localhost:8080/users/updateStatus?userId=1&newStatus=sdsd
     @PostMapping("/updateStatus")
     public UserEntity updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {
         List<UserEntity> allUsers = userService.getAllUsers();
@@ -58,6 +65,7 @@ public class UserController {
     }
 
 
+    //POST: http://localhost:8080/users/searchUsers?filterStatus=ACTIVE
     @PostMapping("/searchUsers")
     public List<UserEntity> searchUser(@RequestParam(required = false, defaultValue = "none") String filterStatus) {
         List<UserEntity> allUsers = userService.getAllUsers();

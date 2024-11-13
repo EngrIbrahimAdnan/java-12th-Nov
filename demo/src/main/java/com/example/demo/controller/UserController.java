@@ -62,6 +62,8 @@ public class UserController {
         }
     }
 
+
+
     //POST: http://localhost:8080/users/updateStatus?userId=1&newStatus=sdsd
     @PostMapping("/updateStatus")
     public ResponseEntity<UserEntity> updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {

@@ -47,12 +47,25 @@ public class UserController {
         }
     }
 
+    //POST: http://localhost:8080/users/searchUsers?filterStatus=ACTIVE
+    @PostMapping("/searchUsers")
+    public ResponseEntity<List<UserEntity>> filterUsers(@RequestParam(required = false, defaultValue = "none") String filterStatus) {
+
+        List<UserEntity> filteredUsers = userService.filterUsers(filterStatus);
+        // Return a 200 OK with a custom message in the response body
+        if (!filteredUsers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(filteredUsers);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(null);
+        }
+    }
 
     //POST: http://localhost:8080/users/updateStatus?userId=1&newStatus=sdsd
     @PostMapping("/updateStatus")
     public UserEntity updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {
         List<UserEntity> allUsers = userService.getAllUsers();
-
 
         for (UserEntity user : allUsers) {
             if (user.getId().equals(userId)) {
@@ -60,27 +73,7 @@ public class UserController {
                 return user;
             }
         }
-
         return null;
     }
 
-
-    //POST: http://localhost:8080/users/searchUsers?filterStatus=ACTIVE
-    @PostMapping("/searchUsers")
-    public List<UserEntity> searchUser(@RequestParam(required = false, defaultValue = "none") String filterStatus) {
-        List<UserEntity> allUsers = userService.getAllUsers();
-        List<UserEntity> filteredUsers = new ArrayList();
-
-        for (UserEntity user : allUsers) {
-            String currentStatus = user.getStatus();
-
-            // Check if currentStatus is not null before calling equals
-            if (currentStatus != null && currentStatus.equals(filterStatus)) {
-                filteredUsers.add(user);
-            }
-        }
-
-        // Return an empty list if no users match the filter
-        return filteredUsers;
-    }
 }

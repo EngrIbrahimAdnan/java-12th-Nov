@@ -8,4 +8,6 @@ public interface UserService {
     List<UserEntity> getAllUsers();
     // You can define other service methods here
     UserResponse createUser (CreateUserRequest request);
+    List<UserEntity> filterUsers(String filterStatus);
+
 }

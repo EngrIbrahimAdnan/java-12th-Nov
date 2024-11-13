@@ -62,9 +62,11 @@ public class UserServiceImpl implements UserService {
         for (UserEntity user : allUsers) {
             if (user.getId().equals(userId)) {
                 user.setStatus(newStatus);
+                userRepository.save(user);
                 return user;
             }
         }
+
         return null;
     }
 }

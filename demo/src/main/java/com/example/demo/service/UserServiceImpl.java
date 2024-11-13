@@ -50,10 +50,21 @@ public class UserServiceImpl implements UserService {
                 filteredUsers.add(user);
             }
         }
-
         // Return an empty list if no users match the filter
         return filteredUsers;
     }
 
 
+    @Override
+    public UserEntity updateUser(Long userId, String newStatus) {
+        List<UserEntity> allUsers = userRepository.findAll();
+
+        for (UserEntity user : allUsers) {
+            if (user.getId().equals(userId)) {
+                user.setStatus(newStatus);
+                return user;
+            }
+        }
+        return null;
+    }
 }

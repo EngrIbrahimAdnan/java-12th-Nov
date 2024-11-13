@@ -64,16 +64,18 @@ public class UserController {
 
     //POST: http://localhost:8080/users/updateStatus?userId=1&newStatus=sdsd
     @PostMapping("/updateStatus")
-    public UserEntity updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {
-        List<UserEntity> allUsers = userService.getAllUsers();
+    public ResponseEntity<UserEntity> updateUser(@RequestParam(required = false) Long userId, @RequestParam(required = false) String newStatus) {
 
-        for (UserEntity user : allUsers) {
-            if (user.getId().equals(userId)) {
-                user.setStatus(newStatus);
-                return user;
-            }
+        UserEntity modifiedUser = userService.updateUser(userId,newStatus);
+        // Return a 200 OK with a custom message in the response body
+        if (modifiedUser!=null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modifiedUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(null);
         }
-        return null;
     }
+
 
 }
